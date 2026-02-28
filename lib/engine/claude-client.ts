@@ -25,7 +25,7 @@ export async function generateUI(
   ];
 
   const response = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
+    model: "claude-sonnet-4-5-20250929",
     max_tokens: 4096,
     temperature: 0,
     system: systemPrompt,
@@ -57,7 +57,7 @@ export function generateUIStream(
     async start(controller) {
       try {
         const stream = client.messages.stream({
-          model: "claude-haiku-4-5-20251001",
+          model: "claude-sonnet-4-5-20250929",
           max_tokens: 4096,
           temperature: 0,
           system: systemPrompt,
