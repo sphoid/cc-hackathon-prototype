@@ -6,12 +6,33 @@ const schemaCache = new Map<string, WorkflowSchema>();
 
 const SCHEMAS_DIR = path.join(process.cwd(), "schemas");
 
+async function readPromptFile(filename: string): Promise<string | null> {
+  try {
+    return await fs.readFile(path.join(SCHEMAS_DIR, filename), "utf-8");
+  } catch {
+    return null;
+  }
+}
+
 export async function loadAllSchemas(): Promise<void> {
+  const basePrompt = await readPromptFile("base.prompt.md");
+
   const files = await fs.readdir(SCHEMAS_DIR);
   for (const file of files) {
     if (!file.endsWith(".json")) continue;
     const content = await fs.readFile(path.join(SCHEMAS_DIR, file), "utf-8");
     const schema: WorkflowSchema = JSON.parse(content);
+
+    const schemaPrompt = await readPromptFile(
+      `${schema.workflow_id}.prompt.md`
+    );
+
+    if (basePrompt || schemaPrompt) {
+      schema.prompt_context = [basePrompt, schemaPrompt]
+        .filter(Boolean)
+        .join("\n\n---\n\n");
+    }
+
     schemaCache.set(schema.workflow_id, schema);
   }
 }
