@@ -10,6 +10,20 @@ import { buildSystemPrompt } from "@/lib/engine/prompt-builder";
 import { generateUI } from "@/lib/engine/claude-client";
 import { GenerateRequest } from "@/lib/types/api";
 
+// In-memory cache for auto-generated sub-workflow pages
+const htmlCache = new Map<string, { html: string; metadata: Record<string, unknown> }>();
+
+function buildCacheKey(
+  workflowId: string,
+  subWorkflowId: string,
+  inputs?: Record<string, string>
+): string {
+  const sortedInputs = inputs
+    ? Object.keys(inputs).sort().map((k) => `${k}=${inputs[k]}`).join("&")
+    : "";
+  return `${workflowId}:${subWorkflowId}:${sortedInputs}`;
+}
+
 export async function POST(request: NextRequest) {
   let body: GenerateRequest;
   try {
@@ -59,9 +73,10 @@ export async function POST(request: NextRequest) {
 
   // Determine the effective query
   let effectiveQuery = typeof query === "string" ? query.trim() : "";
+  const isAutoGenerate = !effectiveQuery && !!sub_workflow_id;
 
-  if (!effectiveQuery && sub_workflow_id && schema.sub_workflows) {
-    const subWorkflow = schema.sub_workflows[sub_workflow_id];
+  if (isAutoGenerate && schema.sub_workflows) {
+    const subWorkflow = schema.sub_workflows[sub_workflow_id!];
     effectiveQuery =
       subWorkflow.auto_generate_query ||
       `Generate the ${subWorkflow.name} page.`;
@@ -79,6 +94,19 @@ export async function POST(request: NextRequest) {
       { error: "Query exceeds maximum length of 2000 characters" },
       { status: 400 }
     );
+  }
+
+  // Check cache for auto-generated sub-workflow pages
+  if (isAutoGenerate && sub_workflow_id) {
+    const cacheKey = buildCacheKey(workflow_id, sub_workflow_id, inputs);
+    const cached = htmlCache.get(cacheKey);
+    if (cached) {
+      return NextResponse.json({
+        session_id,
+        html: cached.html,
+        metadata: { ...cached.metadata, conversation_turn: 1, cached: true },
+      });
+    }
   }
 
   // Get or create session, check consistency
@@ -108,6 +136,12 @@ export async function POST(request: NextRequest) {
       session.conversation,
       effectiveQuery
     );
+
+    // Cache auto-generated sub-workflow results
+    if (isAutoGenerate && sub_workflow_id) {
+      const cacheKey = buildCacheKey(workflow_id, sub_workflow_id, inputs);
+      htmlCache.set(cacheKey, { html: result.html, metadata: result.metadata });
+    }
 
     // Add messages to session
     addMessage(session_id, { role: "user", content: effectiveQuery });
