@@ -33,9 +33,11 @@ Every response must meet these standards without exception:
 - Links should be visually distinct from body text
 
 **Icons**
-- Inline SVG icons must have explicit `width` and `height` attributes: `16` for inline-text icons, `20` for button icons, `24` for standalone/decorative icons
-- Always set `viewBox` on SVGs so they scale correctly at the specified size
-- Never omit width/height — browser defaults will render them far too large
+- ALL SVG icons MUST have explicit `width` and `height` attributes — no exceptions
+- Size guide: `14`–`16` for icons next to text (badges, labels, banners), `18`–`20` for icons inside buttons, `24` maximum for any standalone decorative icon
+- Never exceed `width="24" height="24"` — icons are accents, not illustrations
+- Always include a `viewBox` attribute so the SVG scales correctly at small sizes
+- Keep SVG paths simple (single-path outlines); do not generate complex multi-element illustrations
 
 **Responsive Design**
 - Always use responsive Tailwind prefixes: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` for grids
