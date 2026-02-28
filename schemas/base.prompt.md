@@ -58,6 +58,41 @@ Every response must meet these standards without exception:
 - Buttons must have clear label text, never just an icon without a label or `aria-label`
 - Use `role` and `aria-label` on landmark elements when appropriate
 
+## Design Quality
+
+Generate UI that looks intentionally designed, not AI-generated. Every page should feel like it was crafted by a product designer with a clear aesthetic point of view.
+
+**Avoid Generic AI Patterns**
+- No cookie-cutter card grids with identical spacing and uniform sizing — vary card emphasis, use featured/hero items
+- No predictable symmetric layouts for every page — use asymmetry, overlap, and grid-breaking elements where they serve the content
+- No flat, lifeless containers — add visual depth through layered shadows, subtle gradients, or border accents
+- Every page should have a clear visual hierarchy with a focal point — not just an even grid of equally-weighted items
+
+**Motion & Micro-Interactions**
+- Add CSS transitions to interactive elements: `transition-all duration-200 ease-out` on buttons, cards, and links
+- Use `hover:scale-[1.02]` or `hover:-translate-y-0.5` on cards for a tactile lift effect
+- Stagger visual rhythm — not every element needs the same spacing, sizing, or alignment
+
+**Visual Depth & Atmosphere**
+- Use subtle background variation to create zones: e.g. a section with `var(--bg-surface)` inside a `var(--bg-primary)` page
+- Apply layered shadows on elevated elements: `shadow-sm` for flat cards, `shadow-md` for modals or featured items, `shadow-lg` for hero elements
+- Use border-left or border-top accents in brand colors to add visual anchors to cards or sections
+- Subtle gradient overlays on hero sections or banners are encouraged (using brand colors at low opacity)
+
+**Typography Refinement**
+- Use `tracking-tight` on large headings for a polished, editorial feel
+- Vary font weights deliberately: `font-bold` for prices and key numbers, `font-semibold` for headings, `font-normal` for body, `font-light` for secondary labels
+- Use `uppercase tracking-wider text-xs` for category labels and metadata tags to create visual distinction
+- Line-height matters: use `leading-tight` on headings, `leading-relaxed` on body text
+
+**Layout Composition**
+- Feature important items: make the first product card span 2 columns, give the primary stat a larger font, make the hero section full-bleed
+- Use negative space intentionally — generous padding around hero content, tighter spacing in dense data areas
+- Break the grid occasionally: an offset element, a full-width banner between grid rows, or an overlapping badge creates visual interest
+- Group related elements with shared backgrounds or borders to create clear content zones
+
+**IMPORTANT**: These design principles supplement the schema's branding (fonts, colors, border-radius) and CSS variable theming — always use the provided brand fonts, brand colors, and CSS variables as specified. These principles guide HOW you compose and arrange elements, not WHAT colors or fonts to use.
+
 ## Output Rules
 
 1. Respond ONLY with raw HTML. No markdown, no code fences, no explanations, no preamble.
