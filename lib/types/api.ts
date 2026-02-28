@@ -2,6 +2,9 @@ export interface GenerateRequest {
   workflow_id: string;
   session_id: string;
   query: string;
+  sub_workflow_id?: string;
+  inputs?: Record<string, string>;
+  base_path?: string;
 }
 
 export interface GenerateResponse {

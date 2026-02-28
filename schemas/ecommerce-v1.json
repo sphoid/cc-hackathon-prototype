@@ -50,5 +50,76 @@
     "responsive": true,
     "dark_mode": false
   },
-  "prompt_context": "You are a UI generation engine for ShopWave, an e-commerce platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is browsing products and will ask questions to refine what they see. Generate product grids, filter views, comparison tables, detail cards, and cart summaries as appropriate. Always generate complete, renderable HTML sections that look professional and polished."
+  "prompt_context": "You are a UI generation engine for ShopWave, an e-commerce platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is browsing products and will ask questions to refine what they see. Generate product grids, filter views, comparison tables, detail cards, and cart summaries as appropriate. Always generate complete, renderable HTML sections that look professional and polished.",
+  "sub_workflows": {
+    "entry-point": {
+      "name": "Storefront",
+      "prompt_context": "",
+      "is_entry_point": true,
+      "auto_generate_query": "Show the storefront homepage with featured products, category navigation, and a hero banner. Include links to browse products and view individual product details.",
+      "inputs": [],
+      "routes_to": [
+        {
+          "sub_workflow_id": "search",
+          "label": "Browse Products",
+          "description": "Link to product search/browse when the user wants to explore or filter products"
+        },
+        {
+          "sub_workflow_id": "product",
+          "label": "View Details",
+          "description": "Link to a specific product detail page when showing product cards or listings"
+        }
+      ]
+    },
+    "search": {
+      "name": "Product Search",
+      "prompt_context": "",
+      "auto_generate_query": "Show product search results with filters and sorting options.",
+      "inputs": [
+        {
+          "name": "q",
+          "type": "string",
+          "required": false,
+          "description": "Search query text"
+        }
+      ],
+      "routes_to": [
+        {
+          "sub_workflow_id": "product",
+          "label": "View Details",
+          "description": "Link to a specific product detail page from search results"
+        },
+        {
+          "sub_workflow_id": "entry-point",
+          "label": "Home",
+          "description": "Link back to the storefront homepage"
+        }
+      ]
+    },
+    "product": {
+      "name": "Product Detail",
+      "prompt_context": "",
+      "auto_generate_query": "Show the product detail page for this product with full description, images, pricing, and related products.",
+      "inputs": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Product ID to display"
+        }
+      ],
+      "routes_to": [
+        {
+          "sub_workflow_id": "search",
+          "label": "Browse Products",
+          "description": "Link to search/browse to find more products"
+        },
+        {
+          "sub_workflow_id": "entry-point",
+          "label": "Home",
+          "description": "Link back to the storefront homepage"
+        }
+      ]
+    }
+  }
 }

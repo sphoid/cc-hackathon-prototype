@@ -21,7 +21,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { workflow_id, session_id, query } = body;
+  const { workflow_id, session_id, query, sub_workflow_id, inputs, base_path } =
+    body;
 
   // Validate required fields
   const missing: string[] = [];
@@ -35,26 +36,48 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Validate query
-  if (typeof query !== "string" || query.trim() === "") {
-    return NextResponse.json(
-      { error: "Query cannot be empty" },
-      { status: 400 }
-    );
-  }
-  if (query.length > 2000) {
-    return NextResponse.json(
-      { error: "Query exceeds maximum length of 2000 characters" },
-      { status: 400 }
-    );
-  }
-
   // Load schema
   const schema = await getSchema(workflow_id);
   if (!schema) {
     return NextResponse.json(
       { error: `Workflow not found: ${workflow_id}` },
       { status: 404 }
+    );
+  }
+
+  // Validate sub_workflow_id if provided
+  if (sub_workflow_id) {
+    if (!schema.sub_workflows || !schema.sub_workflows[sub_workflow_id]) {
+      return NextResponse.json(
+        {
+          error: `Sub-workflow not found: ${sub_workflow_id} in workflow ${workflow_id}`,
+        },
+        { status: 404 }
+      );
+    }
+  }
+
+  // Determine the effective query
+  let effectiveQuery = typeof query === "string" ? query.trim() : "";
+
+  if (!effectiveQuery && sub_workflow_id && schema.sub_workflows) {
+    const subWorkflow = schema.sub_workflows[sub_workflow_id];
+    effectiveQuery =
+      subWorkflow.auto_generate_query ||
+      `Generate the ${subWorkflow.name} page.`;
+  }
+
+  // Validate query — must have something to work with
+  if (!effectiveQuery) {
+    return NextResponse.json(
+      { error: "Query cannot be empty" },
+      { status: 400 }
+    );
+  }
+  if (effectiveQuery.length > 2000) {
+    return NextResponse.json(
+      { error: "Query exceeds maximum length of 2000 characters" },
+      { status: 400 }
     );
   }
 
@@ -73,17 +96,21 @@ export async function POST(request: NextRequest) {
 
   // Load mock data and build prompt
   const mockData = await loadMockData(workflow_id);
-  const systemPrompt = buildSystemPrompt(schema, mockData);
+  const subWorkflowParams =
+    sub_workflow_id && base_path
+      ? { subWorkflowId: sub_workflow_id, basePath: base_path, inputs }
+      : undefined;
+  const systemPrompt = buildSystemPrompt(schema, mockData, subWorkflowParams);
 
   try {
     const result = await generateUI(
       systemPrompt,
       session.conversation,
-      query
+      effectiveQuery
     );
 
     // Add messages to session
-    addMessage(session_id, { role: "user", content: query });
+    addMessage(session_id, { role: "user", content: effectiveQuery });
     addMessage(session_id, { role: "assistant", content: result.html });
 
     const conversationTurn = Math.ceil(session.conversation.length / 2);

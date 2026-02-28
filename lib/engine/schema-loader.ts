@@ -33,6 +33,20 @@ export async function loadAllSchemas(): Promise<void> {
         .join("\n\n---\n\n");
     }
 
+    // Load sub-workflow prompt contexts
+    if (schema.sub_workflows) {
+      for (const [subId, subWorkflow] of Object.entries(schema.sub_workflows)) {
+        const subPrompt = await readPromptFile(
+          `${schema.workflow_id}.${subId}.prompt.md`
+        );
+        // Use sub-workflow-specific prompt, fall back to main schema prompt
+        const resolvedPrompt = subPrompt || schemaPrompt;
+        subWorkflow.prompt_context = [basePrompt, resolvedPrompt]
+          .filter(Boolean)
+          .join("\n\n---\n\n");
+      }
+    }
+
     schemaCache.set(schema.workflow_id, schema);
   }
 }
