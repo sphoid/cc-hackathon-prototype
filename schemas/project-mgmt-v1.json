@@ -54,5 +54,76 @@
     "responsive": true,
     "dark_mode": false
   },
-  "prompt_context": "You are a UI generation engine for TaskFlow, a project management platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is managing tasks and projects. Generate kanban boards, task lists, timeline views, status dashboards, and detail panels as appropriate. Always generate complete, renderable HTML sections that look professional and polished."
+  "prompt_context": "You are a UI generation engine for TaskFlow, a project management platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is managing tasks and projects. Generate kanban boards, task lists, timeline views, status dashboards, and detail panels as appropriate. Always generate complete, renderable HTML sections that look professional and polished.",
+  "sub_workflows": {
+    "entry-point": {
+      "name": "Project Hub",
+      "prompt_context": "",
+      "is_entry_point": true,
+      "auto_generate_query": "Show the project hub dashboard with project overview cards, recent activity, task statistics, and quick navigation links.",
+      "inputs": [],
+      "routes_to": [
+        {
+          "sub_workflow_id": "board",
+          "label": "View Board",
+          "description": "Link to the kanban board view when showing project overviews or task summaries"
+        },
+        {
+          "sub_workflow_id": "task-detail",
+          "label": "View Task",
+          "description": "Link to a specific task detail page when showing task lists or cards"
+        }
+      ]
+    },
+    "board": {
+      "name": "Kanban Board",
+      "prompt_context": "",
+      "auto_generate_query": "Show the kanban board with columns for each status: To Do, In Progress, In Review, and Done. Show task cards in each column.",
+      "inputs": [
+        {
+          "name": "project",
+          "type": "string",
+          "required": false,
+          "description": "Filter board by project name"
+        }
+      ],
+      "routes_to": [
+        {
+          "sub_workflow_id": "task-detail",
+          "label": "View Task",
+          "description": "Link to a specific task detail page from the board"
+        },
+        {
+          "sub_workflow_id": "entry-point",
+          "label": "Project Hub",
+          "description": "Link back to the project hub dashboard"
+        }
+      ]
+    },
+    "task-detail": {
+      "name": "Task Detail",
+      "prompt_context": "",
+      "auto_generate_query": "Show the task detail page with full description, status, priority, assignee, due date, tags, and project info.",
+      "inputs": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Task ID to display"
+        }
+      ],
+      "routes_to": [
+        {
+          "sub_workflow_id": "board",
+          "label": "Back to Board",
+          "description": "Link back to the kanban board"
+        },
+        {
+          "sub_workflow_id": "entry-point",
+          "label": "Project Hub",
+          "description": "Link back to the project hub dashboard"
+        }
+      ]
+    }
+  }
 }

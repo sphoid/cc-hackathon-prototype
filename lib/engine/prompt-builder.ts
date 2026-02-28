@@ -1,12 +1,71 @@
 import { WorkflowSchema } from "@/lib/types/workflow";
 
+interface SubWorkflowParams {
+  subWorkflowId: string;
+  basePath: string;
+  inputs?: Record<string, string>;
+}
+
 export function buildSystemPrompt(
   schema: WorkflowSchema,
-  mockData: Record<string, unknown[]>
+  mockData: Record<string, unknown[]>,
+  subWorkflowParams?: SubWorkflowParams
 ): string {
   const { branding, data_sources, ui_directives } = schema;
 
-  return `${schema.prompt_context}
+  // Determine prompt context: sub-workflow specific or schema-level
+  let promptContext = schema.prompt_context;
+  let navigationSection = "";
+  let inputsSection = "";
+
+  if (subWorkflowParams && schema.sub_workflows) {
+    const subWorkflow = schema.sub_workflows[subWorkflowParams.subWorkflowId];
+    if (subWorkflow) {
+      promptContext = subWorkflow.prompt_context;
+
+      // Build navigation section
+      const routes = subWorkflow.routes_to.map((route) => {
+        const target = schema.sub_workflows![route.sub_workflow_id];
+        const targetInputs = target?.inputs || [];
+        const requiredParams = targetInputs
+          .filter((i) => i.required)
+          .map((i) => `${i.name}={${i.name.toUpperCase()}}`)
+          .join("&");
+        const queryStr = requiredParams ? `?${requiredParams}` : "";
+        const targetPath =
+          route.sub_workflow_id === "entry-point"
+            ? subWorkflowParams.basePath
+            : `${subWorkflowParams.basePath}/${route.sub_workflow_id}${queryStr}`;
+        return `- "${route.label}" → <a href="${targetPath}">${route.label}</a> — ${route.description}`;
+      });
+
+      navigationSection = `
+NAVIGATION:
+Generate standard HTML <a href> links for navigation between pages. Use these target URLs:
+${routes.join("\n")}
+
+Replace placeholders like {ID}, {PRODUCT_ID}, etc. with actual data values from the dataset.
+For example: <a href="${subWorkflowParams.basePath}/product?id=prod-001">View Details</a>
+Links should be styled as buttons or inline links as appropriate for the UI context.`;
+
+      // Build inputs section
+      if (
+        subWorkflowParams.inputs &&
+        Object.keys(subWorkflowParams.inputs).length > 0
+      ) {
+        const inputEntries = Object.entries(subWorkflowParams.inputs)
+          .map(([k, v]) => `- ${k}: "${v}"`)
+          .join("\n");
+        inputsSection = `
+CURRENT INPUTS:
+The user navigated to this page with these parameters:
+${inputEntries}
+Use these values to filter or focus the generated UI accordingly.`;
+      }
+    }
+  }
+
+  return `${promptContext}
 
 BRANDING:
 - Brand Name: ${branding.name}
@@ -40,6 +99,8 @@ UI DIRECTIVES:
 - Output format: ${ui_directives.output_format}
 - Responsive: ${ui_directives.responsive}
 - Dark mode: ${ui_directives.dark_mode}
+${navigationSection}
+${inputsSection}
 
 OUTPUT RULES:
 1. Respond ONLY with raw HTML. No markdown, no code fences, no explanations.

@@ -1,3 +1,25 @@
+export interface SubWorkflowInput {
+  name: string;
+  type: "string" | "number";
+  required?: boolean;
+  description: string;
+}
+
+export interface SubWorkflowRoute {
+  sub_workflow_id: string;
+  label: string;
+  description: string;
+}
+
+export interface SubWorkflow {
+  name: string;
+  prompt_context: string;
+  is_entry_point?: boolean;
+  auto_generate_query?: string;
+  inputs: SubWorkflowInput[];
+  routes_to: SubWorkflowRoute[];
+}
+
 export interface WorkflowSchema {
   workflow_id: string;
   name: string;
@@ -6,6 +28,7 @@ export interface WorkflowSchema {
   data_sources: Record<string, DataSource>;
   ui_directives: UIDirectives;
   prompt_context: string;
+  sub_workflows?: Record<string, SubWorkflow>;
 }
 
 export interface BrandingConfig {

@@ -52,5 +52,82 @@
     "responsive": true,
     "dark_mode": false
   },
-  "prompt_context": "You are a UI generation engine for LedgerLite, a bookkeeping platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is managing financial records. Generate ledger tables, invoice views, expense charts, account summaries, and financial dashboards as appropriate. Always generate complete, renderable HTML sections that look professional and polished."
+  "prompt_context": "You are a UI generation engine for LedgerLite, a bookkeeping platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is managing financial records. Generate ledger tables, invoice views, expense charts, account summaries, and financial dashboards as appropriate. Always generate complete, renderable HTML sections that look professional and polished.",
+  "sub_workflows": {
+    "entry-point": {
+      "name": "Dashboard",
+      "prompt_context": "",
+      "is_entry_point": true,
+      "auto_generate_query": "Show the financial dashboard with account balances, recent transactions, income vs expenses summary, and quick navigation links.",
+      "inputs": [],
+      "routes_to": [
+        {
+          "sub_workflow_id": "transactions",
+          "label": "View Transactions",
+          "description": "Link to the full transaction ledger when showing transaction summaries or when user wants to drill into details"
+        },
+        {
+          "sub_workflow_id": "account-detail",
+          "label": "View Account",
+          "description": "Link to a specific account detail page when showing account cards or balances"
+        }
+      ]
+    },
+    "transactions": {
+      "name": "Transaction Ledger",
+      "prompt_context": "",
+      "auto_generate_query": "Show the full transaction ledger with all transactions, sortable columns, and filter options.",
+      "inputs": [
+        {
+          "name": "account",
+          "type": "string",
+          "required": false,
+          "description": "Filter transactions by account name"
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "required": false,
+          "description": "Filter transactions by category"
+        }
+      ],
+      "routes_to": [
+        {
+          "sub_workflow_id": "account-detail",
+          "label": "View Account",
+          "description": "Link to a specific account detail page"
+        },
+        {
+          "sub_workflow_id": "entry-point",
+          "label": "Dashboard",
+          "description": "Link back to the main financial dashboard"
+        }
+      ]
+    },
+    "account-detail": {
+      "name": "Account Detail",
+      "prompt_context": "",
+      "auto_generate_query": "Show the account detail page with balance, recent transactions for this account, and spending breakdown.",
+      "inputs": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Account ID to display"
+        }
+      ],
+      "routes_to": [
+        {
+          "sub_workflow_id": "transactions",
+          "label": "All Transactions",
+          "description": "Link to the full transaction ledger"
+        },
+        {
+          "sub_workflow_id": "entry-point",
+          "label": "Dashboard",
+          "description": "Link back to the main financial dashboard"
+        }
+      ]
+    }
+  }
 }
