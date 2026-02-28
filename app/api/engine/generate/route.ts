@@ -7,7 +7,7 @@ import {
 } from "@/lib/engine/session-store";
 import { loadMockData } from "@/lib/mock-data/loader";
 import { buildSystemPrompt } from "@/lib/engine/prompt-builder";
-import { generateUI } from "@/lib/engine/claude-client";
+import { generateUIStream } from "@/lib/engine/claude-client";
 import { normalizeQuery } from "@/lib/engine/query-normalizer";
 import { GenerateRequest } from "@/lib/types/api";
 
@@ -142,6 +142,7 @@ export async function POST(request: NextRequest) {
     );
 
     let fullText = "";
+    let sentLength = 0;
     const encoder = new TextEncoder();
 
     const sseStream = new ReadableStream({
@@ -190,9 +191,15 @@ export async function POST(request: NextRequest) {
               );
             } else {
               fullText += value;
-              controller.enqueue(
-                encoder.encode(`data: ${JSON.stringify(value)}\n\n`)
-              );
+              // Strip leading markdown fence from accumulated text before sending
+              const clean = fullText.replace(/^```(?:html)?\s*\n?/i, "");
+              const delta = clean.slice(sentLength);
+              if (delta) {
+                controller.enqueue(
+                  encoder.encode(`data: ${JSON.stringify(delta)}\n\n`)
+                );
+                sentLength = clean.length;
+              }
             }
           }
         } catch (err) {
