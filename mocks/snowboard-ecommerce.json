@@ -1,0 +1,593 @@
+{
+  "site": {
+    "name": "PowderLine",
+    "tagline": "Ride More. Worry Less.",
+    "logo": "powderline-logo",
+    "currency": "USD"
+  },
+  "navigation": {
+    "primary": [
+      { "id": "nav-1", "label": "Snowboards", "href": "/snowboards", "hasDropdown": true },
+      { "id": "nav-2", "label": "Boots", "href": "/boots", "hasDropdown": true },
+      { "id": "nav-3", "label": "Bindings", "href": "/bindings", "hasDropdown": true },
+      { "id": "nav-4", "label": "Outerwear", "href": "/outerwear", "hasDropdown": true, "active": true },
+      { "id": "nav-5", "label": "Accessories", "href": "/accessories", "hasDropdown": true },
+      { "id": "nav-6", "label": "Sale", "href": "/sale", "hasDropdown": false, "badge": "Up to 40% off" }
+    ],
+    "utility": [
+      { "id": "util-1", "label": "Find a Store", "href": "/stores", "icon": "map-pin" },
+      { "id": "util-2", "label": "Account", "href": "/account", "icon": "user" },
+      { "id": "util-3", "label": "Wishlist", "href": "/wishlist", "icon": "heart", "count": 3 },
+      { "id": "util-4", "label": "Cart", "href": "/cart", "icon": "shopping-bag", "count": 1 }
+    ],
+    "breadcrumb": [
+      { "label": "Home", "href": "/" },
+      { "label": "Outerwear", "href": "/outerwear" },
+      { "label": "Jackets", "href": "/outerwear/jackets" }
+    ]
+  },
+  "searchContext": {
+    "query": "snowboard jackets",
+    "totalResults": 142,
+    "currentPage": 1,
+    "totalPages": 9,
+    "itemsPerPage": 16,
+    "sortOptions": [
+      { "value": "relevance", "label": "Best Match", "selected": true },
+      { "value": "price-asc", "label": "Price: Low to High", "selected": false },
+      { "value": "price-desc", "label": "Price: High to Low", "selected": false },
+      { "value": "rating", "label": "Top Rated", "selected": false },
+      { "value": "newest", "label": "Newest", "selected": false }
+    ]
+  },
+  "filters": {
+    "applied": [
+      { "id": "cat-jackets", "group": "category", "label": "Jackets", "removable": true }
+    ],
+    "available": [
+      {
+        "id": "filter-gender",
+        "label": "Gender",
+        "type": "checkbox",
+        "options": [
+          { "value": "mens", "label": "Men's", "count": 68 },
+          { "value": "womens", "label": "Women's", "count": 54 },
+          { "value": "unisex", "label": "Unisex", "count": 20 }
+        ]
+      },
+      {
+        "id": "filter-brand",
+        "label": "Brand",
+        "type": "checkbox",
+        "options": [
+          { "value": "burton", "label": "Burton", "count": 28 },
+          { "value": "volcom", "label": "Volcom", "count": 22 },
+          { "value": "686", "label": "686", "count": 18 },
+          { "value": "oakley", "label": "Oakley", "count": 15 },
+          { "value": "quiksilver", "label": "Quiksilver", "count": 14 },
+          { "value": "roxy", "label": "Roxy", "count": 13 },
+          { "value": "dc", "label": "DC Shoes", "count": 12 },
+          { "value": "patagonia", "label": "Patagonia", "count": 10 },
+          { "value": "arcteryx", "label": "Arc'teryx", "count": 9 },
+          { "value": "thirtytwo", "label": "ThirtyTwo", "count": 8 },
+          { "value": "sessions", "label": "Sessions", "count": 7 }
+        ]
+      },
+      {
+        "id": "filter-price",
+        "label": "Price",
+        "type": "range",
+        "min": 49,
+        "max": 899,
+        "step": 10,
+        "selectedMin": 49,
+        "selectedMax": 899
+      },
+      {
+        "id": "filter-size",
+        "label": "Size",
+        "type": "checkbox",
+        "options": [
+          { "value": "xs", "label": "XS", "count": 88 },
+          { "value": "s", "label": "S", "count": 130 },
+          { "value": "m", "label": "M", "count": 138 },
+          { "value": "l", "label": "L", "count": 134 },
+          { "value": "xl", "label": "XL", "count": 120 },
+          { "value": "xxl", "label": "XXL", "count": 98 }
+        ]
+      },
+      {
+        "id": "filter-color",
+        "label": "Color",
+        "type": "swatch",
+        "options": [
+          { "value": "black", "label": "Black", "hex": "#1a1a1a", "count": 62 },
+          { "value": "navy", "label": "Navy", "hex": "#1b2a4a", "count": 34 },
+          { "value": "red", "label": "Red", "hex": "#c0392b", "count": 28 },
+          { "value": "blue", "label": "Blue", "hex": "#2980b9", "count": 26 },
+          { "value": "green", "label": "Green", "hex": "#27ae60", "count": 20 },
+          { "value": "white", "label": "White", "hex": "#f5f5f5", "count": 18 },
+          { "value": "orange", "label": "Orange", "hex": "#e67e22", "count": 14 },
+          { "value": "purple", "label": "Purple", "hex": "#8e44ad", "count": 12 }
+        ]
+      },
+      {
+        "id": "filter-features",
+        "label": "Features",
+        "type": "checkbox",
+        "options": [
+          { "value": "waterproof", "label": "Waterproof", "count": 118 },
+          { "value": "insulated", "label": "Insulated", "count": 96 },
+          { "value": "helmet-compatible", "label": "Helmet Compatible Hood", "count": 88 },
+          { "value": "powder-skirt", "label": "Powder Skirt", "count": 74 },
+          { "value": "venting", "label": "Pit Zips / Venting", "count": 66 },
+          { "value": "recco", "label": "RECCO Reflector", "count": 40 }
+        ]
+      },
+      {
+        "id": "filter-rating",
+        "label": "Customer Rating",
+        "type": "radio",
+        "options": [
+          { "value": "4up", "label": "4 Stars & Up", "count": 98 },
+          { "value": "3up", "label": "3 Stars & Up", "count": 128 },
+          { "value": "any", "label": "Any Rating", "count": 142 }
+        ]
+      }
+    ]
+  },
+  "products": [
+    {
+      "id": "prod-001",
+      "brand": "Burton",
+      "name": "Burton [ak] GORE-TEX Cyclic Jacket",
+      "slug": "burton-ak-gore-tex-cyclic-jacket",
+      "price": 549.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.8,
+      "reviewCount": 214,
+      "badge": "Best Seller",
+      "gender": "mens",
+      "colors": [
+        { "name": "True Black", "hex": "#1a1a1a", "imageKey": "prod-001-black" },
+        { "name": "Dress Blues", "hex": "#1b2a4a", "imageKey": "prod-001-navy" }
+      ],
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["GORE-TEX Pro", "Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt", "Pit Zips"],
+      "waterproofRating": "20K",
+      "breathabilityRating": "20K"
+    },
+    {
+      "id": "prod-002",
+      "brand": "Volcom",
+      "name": "Volcom L Insulated GORE-TEX Jacket",
+      "slug": "volcom-l-insulated-gore-tex-jacket",
+      "price": 449.95,
+      "originalPrice": 549.95,
+      "onSale": true,
+      "rating": 4.6,
+      "reviewCount": 187,
+      "badge": "Sale",
+      "gender": "mens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-002-black" },
+        { "name": "Bright White", "hex": "#f5f5f5", "imageKey": "prod-002-white" },
+        { "name": "Blue Drift", "hex": "#2980b9", "imageKey": "prod-002-blue" }
+      ],
+      "sizes": ["S", "M", "L", "XL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["GORE-TEX", "Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt"],
+      "waterproofRating": "15K",
+      "breathabilityRating": "15K"
+    },
+    {
+      "id": "prod-003",
+      "brand": "686",
+      "name": "686 GLCR GORE-TEX Core Jacket",
+      "slug": "686-glcr-gore-tex-core-jacket",
+      "price": 499.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.7,
+      "reviewCount": 143,
+      "badge": "New",
+      "gender": "mens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-003-black" },
+        { "name": "Rust", "hex": "#c0392b", "imageKey": "prod-003-rust" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+      "isNew": true,
+      "inStock": true,
+      "features": ["GORE-TEX", "Waterproof", "Insulated", "Powder Skirt", "Pit Zips", "RECCO Reflector"],
+      "waterproofRating": "15K",
+      "breathabilityRating": "15K"
+    },
+    {
+      "id": "prod-004",
+      "brand": "Arc'teryx",
+      "name": "Arc'teryx Sentinel AR Jacket",
+      "slug": "arcteryx-sentinel-ar-jacket",
+      "price": 849.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.9,
+      "reviewCount": 89,
+      "badge": "Premium Pick",
+      "gender": "mens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-004-black" },
+        { "name": "Cobalt Moon", "hex": "#2c5f8a", "imageKey": "prod-004-cobalt" }
+      ],
+      "sizes": ["S", "M", "L", "XL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["GORE-TEX Pro", "Waterproof", "Shell", "Helmet Compatible Hood", "Powder Skirt", "Pit Zips", "RECCO Reflector"],
+      "waterproofRating": "28K",
+      "breathabilityRating": "28K"
+    },
+    {
+      "id": "prod-005",
+      "brand": "Roxy",
+      "name": "Roxy Stated Overhead Jacket",
+      "slug": "roxy-stated-overhead-jacket",
+      "price": 249.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.4,
+      "reviewCount": 201,
+      "badge": null,
+      "gender": "womens",
+      "colors": [
+        { "name": "True Black", "hex": "#1a1a1a", "imageKey": "prod-005-black" },
+        { "name": "Bright White", "hex": "#f5f5f5", "imageKey": "prod-005-white" },
+        { "name": "Violet", "hex": "#8e44ad", "imageKey": "prod-005-violet" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt"],
+      "waterproofRating": "10K",
+      "breathabilityRating": "10K"
+    },
+    {
+      "id": "prod-006",
+      "brand": "Oakley",
+      "name": "Oakley Gunn-RC Shell Jacket",
+      "slug": "oakley-gunn-rc-shell-jacket",
+      "price": 374.95,
+      "originalPrice": 449.95,
+      "onSale": true,
+      "rating": 4.5,
+      "reviewCount": 112,
+      "badge": "Sale",
+      "gender": "mens",
+      "colors": [
+        { "name": "Blackout", "hex": "#1a1a1a", "imageKey": "prod-006-black" },
+        { "name": "Dark Brush", "hex": "#27ae60", "imageKey": "prod-006-green" }
+      ],
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["Waterproof", "Shell", "Helmet Compatible Hood", "Powder Skirt", "Pit Zips"],
+      "waterproofRating": "15K",
+      "breathabilityRating": "15K"
+    },
+    {
+      "id": "prod-007",
+      "brand": "Patagonia",
+      "name": "Patagonia Snowshot Jacket",
+      "slug": "patagonia-snowshot-jacket",
+      "price": 449.00,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.7,
+      "reviewCount": 156,
+      "badge": null,
+      "gender": "unisex",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-007-black" },
+        { "name": "Navy Blue", "hex": "#1b2a4a", "imageKey": "prod-007-navy" },
+        { "name": "Toasted Orange", "hex": "#e67e22", "imageKey": "prod-007-orange" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["H2No Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt", "Pit Zips", "Recycled Materials"],
+      "waterproofRating": "15K",
+      "breathabilityRating": "15K"
+    },
+    {
+      "id": "prod-008",
+      "brand": "DC Shoes",
+      "name": "DC Techni GORE-TEX Jacket",
+      "slug": "dc-techni-gore-tex-jacket",
+      "price": 329.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.3,
+      "reviewCount": 78,
+      "badge": "New",
+      "gender": "mens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-008-black" },
+        { "name": "Insignia Blue", "hex": "#2980b9", "imageKey": "prod-008-blue" }
+      ],
+      "sizes": ["S", "M", "L", "XL"],
+      "isNew": true,
+      "inStock": true,
+      "features": ["GORE-TEX", "Waterproof", "Insulated", "Powder Skirt"],
+      "waterproofRating": "15K",
+      "breathabilityRating": "15K"
+    },
+    {
+      "id": "prod-009",
+      "brand": "Volcom",
+      "name": "Volcom Fern Insulated GORE-TEX Jacket",
+      "slug": "volcom-fern-insulated-gore-tex-jacket",
+      "price": 449.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.8,
+      "reviewCount": 234,
+      "badge": "Best Seller",
+      "gender": "womens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-009-black" },
+        { "name": "Evergreen", "hex": "#27ae60", "imageKey": "prod-009-green" },
+        { "name": "Dusty Mauve", "hex": "#c9a0b8", "imageKey": "prod-009-mauve" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["GORE-TEX", "Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt", "Pit Zips"],
+      "waterproofRating": "15K",
+      "breathabilityRating": "15K"
+    },
+    {
+      "id": "prod-010",
+      "brand": "ThirtyTwo",
+      "name": "ThirtyTwo Lashed Insulated Jacket",
+      "slug": "thirtytwo-lashed-insulated-jacket",
+      "price": 219.95,
+      "originalPrice": 279.95,
+      "onSale": true,
+      "rating": 4.2,
+      "reviewCount": 95,
+      "badge": "Sale",
+      "gender": "mens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-010-black" },
+        { "name": "Heather Grey", "hex": "#9b9b9b", "imageKey": "prod-010-grey" }
+      ],
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["Waterproof", "Insulated", "Powder Skirt"],
+      "waterproofRating": "10K",
+      "breathabilityRating": "10K"
+    },
+    {
+      "id": "prod-011",
+      "brand": "Burton",
+      "name": "Burton Lelah Jacket",
+      "slug": "burton-lelah-jacket",
+      "price": 299.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.5,
+      "reviewCount": 167,
+      "badge": null,
+      "gender": "womens",
+      "colors": [
+        { "name": "Stout White", "hex": "#f5f5f5", "imageKey": "prod-011-white" },
+        { "name": "Sparrow", "hex": "#8e44ad", "imageKey": "prod-011-purple" },
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-011-black" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt"],
+      "waterproofRating": "10K",
+      "breathabilityRating": "10K"
+    },
+    {
+      "id": "prod-012",
+      "brand": "Quiksilver",
+      "name": "Quiksilver Mission GORE-TEX Jacket",
+      "slug": "quiksilver-mission-gore-tex-jacket",
+      "price": 399.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.4,
+      "reviewCount": 122,
+      "badge": null,
+      "gender": "mens",
+      "colors": [
+        { "name": "True Black", "hex": "#1a1a1a", "imageKey": "prod-012-black" },
+        { "name": "Medieval Blue", "hex": "#1b2a4a", "imageKey": "prod-012-navy" },
+        { "name": "Flame Orange", "hex": "#e67e22", "imageKey": "prod-012-orange" }
+      ],
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["GORE-TEX", "Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt", "Pit Zips"],
+      "waterproofRating": "15K",
+      "breathabilityRating": "15K"
+    },
+    {
+      "id": "prod-013",
+      "brand": "Sessions",
+      "name": "Sessions Cargo Insulated Jacket",
+      "slug": "sessions-cargo-insulated-jacket",
+      "price": 179.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.1,
+      "reviewCount": 54,
+      "badge": null,
+      "gender": "mens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-013-black" },
+        { "name": "Army Green", "hex": "#556b2f", "imageKey": "prod-013-army" }
+      ],
+      "sizes": ["M", "L", "XL", "XXL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["Waterproof", "Insulated", "Powder Skirt"],
+      "waterproofRating": "10K",
+      "breathabilityRating": "8K"
+    },
+    {
+      "id": "prod-014",
+      "brand": "Roxy",
+      "name": "Roxy Jetty 3-in-1 Jacket",
+      "slug": "roxy-jetty-3-in-1-jacket",
+      "price": 299.95,
+      "originalPrice": 349.95,
+      "onSale": true,
+      "rating": 4.6,
+      "reviewCount": 178,
+      "badge": "Sale",
+      "gender": "womens",
+      "colors": [
+        { "name": "True Black", "hex": "#1a1a1a", "imageKey": "prod-014-black" },
+        { "name": "Bright White", "hex": "#f5f5f5", "imageKey": "prod-014-white" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["Waterproof", "Insulated", "3-in-1 System", "Helmet Compatible Hood", "Powder Skirt"],
+      "waterproofRating": "10K",
+      "breathabilityRating": "10K"
+    },
+    {
+      "id": "prod-015",
+      "brand": "686",
+      "name": "686 Smarty 3-in-1 Cargo Jacket",
+      "slug": "686-smarty-3-in-1-cargo-jacket",
+      "price": 279.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.3,
+      "reviewCount": 88,
+      "badge": null,
+      "gender": "mens",
+      "colors": [
+        { "name": "Black", "hex": "#1a1a1a", "imageKey": "prod-015-black" },
+        { "name": "Cypress Green", "hex": "#27ae60", "imageKey": "prod-015-green" },
+        { "name": "Rusty Red", "hex": "#c0392b", "imageKey": "prod-015-red" }
+      ],
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "isNew": false,
+      "inStock": true,
+      "features": ["Waterproof", "Insulated", "3-in-1 System", "Powder Skirt", "Pit Zips"],
+      "waterproofRating": "10K",
+      "breathabilityRating": "10K"
+    },
+    {
+      "id": "prod-016",
+      "brand": "Burton",
+      "name": "Burton Pillowline GORE-TEX Jacket",
+      "slug": "burton-pillowline-gore-tex-jacket",
+      "price": 649.95,
+      "originalPrice": null,
+      "onSale": false,
+      "rating": 4.9,
+      "reviewCount": 61,
+      "badge": "New",
+      "gender": "unisex",
+      "colors": [
+        { "name": "True Black", "hex": "#1a1a1a", "imageKey": "prod-016-black" },
+        { "name": "Stout White", "hex": "#f5f5f5", "imageKey": "prod-016-white" }
+      ],
+      "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+      "isNew": true,
+      "inStock": true,
+      "features": ["GORE-TEX Pro", "Waterproof", "Insulated", "Helmet Compatible Hood", "Powder Skirt", "Pit Zips", "RECCO Reflector"],
+      "waterproofRating": "28K",
+      "breathabilityRating": "28K"
+    }
+  ],
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 9,
+    "totalItems": 142,
+    "itemsPerPage": 16,
+    "hasPrev": false,
+    "hasNext": true,
+    "prevPage": null,
+    "nextPage": 2,
+    "pageLinks": [1, 2, 3, 4, 5, "...", 9]
+  },
+  "promoBanner": {
+    "active": true,
+    "message": "Free 2-day shipping on orders over $99 + free returns",
+    "link": { "label": "Learn more", "href": "/shipping" },
+    "dismissable": true
+  },
+  "footer": {
+    "tagline": "Gear up. Get out. Go further.",
+    "columns": [
+      {
+        "heading": "Shop",
+        "links": [
+          { "label": "Snowboards", "href": "/snowboards" },
+          { "label": "Boots", "href": "/boots" },
+          { "label": "Bindings", "href": "/bindings" },
+          { "label": "Outerwear", "href": "/outerwear" },
+          { "label": "Accessories", "href": "/accessories" },
+          { "label": "Sale", "href": "/sale" }
+        ]
+      },
+      {
+        "heading": "Help",
+        "links": [
+          { "label": "Size Guide", "href": "/size-guide" },
+          { "label": "Shipping & Returns", "href": "/shipping" },
+          { "label": "FAQ", "href": "/faq" },
+          { "label": "Contact Us", "href": "/contact" },
+          { "label": "Find a Store", "href": "/stores" }
+        ]
+      },
+      {
+        "heading": "Company",
+        "links": [
+          { "label": "About PowderLine", "href": "/about" },
+          { "label": "Sustainability", "href": "/sustainability" },
+          { "label": "Careers", "href": "/careers" },
+          { "label": "Press", "href": "/press" },
+          { "label": "Affiliate Program", "href": "/affiliates" }
+        ]
+      },
+      {
+        "heading": "Follow the Stoke",
+        "social": [
+          { "platform": "Instagram", "handle": "@powderline", "href": "https://instagram.com/powderline", "icon": "instagram" },
+          { "platform": "TikTok", "handle": "@powderline", "href": "https://tiktok.com/@powderline", "icon": "tiktok" },
+          { "platform": "YouTube", "handle": "PowderLine TV", "href": "https://youtube.com/powderline", "icon": "youtube" },
+          { "platform": "Facebook", "handle": "PowderLine", "href": "https://facebook.com/powderline", "icon": "facebook" }
+        ]
+      }
+    ],
+    "legal": {
+      "copyright": "© 2025 PowderLine, Inc. All rights reserved.",
+      "links": [
+        { "label": "Privacy Policy", "href": "/privacy" },
+        { "label": "Terms of Service", "href": "/terms" },
+        { "label": "Cookie Preferences", "href": "/cookies" },
+        { "label": "Accessibility", "href": "/accessibility" }
+      ]
+    },
+    "paymentMethods": ["visa", "mastercard", "amex", "paypal", "apple-pay", "google-pay", "shop-pay"],
+    "trustBadges": [
+      { "label": "Secure Checkout", "icon": "lock" },
+      { "label": "Free Returns", "icon": "refresh" },
+      { "label": "Price Match Guarantee", "icon": "tag" }
+    ]
+  }
+}

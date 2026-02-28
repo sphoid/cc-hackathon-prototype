@@ -1,0 +1,4 @@
+[
+  { "id": "proj-001", "name": "Website Redesign", "description": "Complete overhaul of the public-facing website with modern design and improved UX", "status": "active", "task_count": 10, "progress": 15 },
+  { "id": "proj-002", "name": "Backend Refactor", "description": "Refactor legacy backend services to microservices architecture", "status": "active", "task_count": 7, "progress": 55 }
+]

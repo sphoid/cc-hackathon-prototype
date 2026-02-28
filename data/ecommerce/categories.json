@@ -1,0 +1,9 @@
+[
+  { "id": "cat-001", "name": "Jackets", "product_count": 10 },
+  { "id": "cat-002", "name": "Footwear", "product_count": 4 },
+  { "id": "cat-003", "name": "Base Layers", "product_count": 2 },
+  { "id": "cat-004", "name": "Pants", "product_count": 2 },
+  { "id": "cat-005", "name": "Tops", "product_count": 1 },
+  { "id": "cat-006", "name": "Accessories", "product_count": 3 },
+  { "id": "cat-007", "name": "Bags", "product_count": 1 }
+]

@@ -1,0 +1,471 @@
+{
+  "board": {
+    "id": "board-hackathon-001",
+    "title": "Claude Hackathon 🤖",
+    "description": "Building something cool with Claude. Let's ship it.",
+    "createdAt": "2025-01-18T08:00:00Z",
+    "deadline": "2025-01-19T18:00:00Z",
+    "background": "gradient-aurora",
+    "isStarred": true,
+    "visibility": "team"
+  },
+  "members": [
+    {
+      "id": "user-matt",
+      "name": "Matt",
+      "initials": "M",
+      "avatarColor": "#e74c3c",
+      "role": "owner",
+      "online": true,
+      "lastActive": "2025-01-19T10:42:00Z"
+    },
+    {
+      "id": "user-brandon",
+      "name": "Brandon",
+      "initials": "B",
+      "avatarColor": "#3498db",
+      "role": "member",
+      "online": true,
+      "lastActive": "2025-01-19T10:38:00Z"
+    },
+    {
+      "id": "user-rich",
+      "name": "Rich",
+      "initials": "R",
+      "avatarColor": "#2ecc71",
+      "role": "member",
+      "online": false,
+      "lastActive": "2025-01-19T09:55:00Z"
+    },
+    {
+      "id": "user-charles",
+      "name": "Charles",
+      "initials": "C",
+      "avatarColor": "#9b59b6",
+      "role": "member",
+      "online": true,
+      "lastActive": "2025-01-19T10:40:00Z"
+    }
+  ],
+  "labels": [
+    { "id": "label-frontend", "name": "Frontend", "color": "#3498db" },
+    { "id": "label-backend", "name": "Backend / Prompts", "color": "#e67e22" },
+    { "id": "label-design", "name": "Design", "color": "#9b59b6" },
+    { "id": "label-infra", "name": "Infra / Deploy", "color": "#e74c3c" },
+    { "id": "label-demo", "name": "Demo / Pitch", "color": "#2ecc71" },
+    { "id": "label-blocker", "name": "Blocker", "color": "#c0392b" }
+  ],
+  "columns": [
+    {
+      "id": "col-backlog",
+      "title": "Backlog",
+      "order": 1,
+      "cardLimit": null,
+      "cards": [
+        {
+          "id": "card-101",
+          "title": "Research: explore Claude computer use API",
+          "description": "Spike on what computer use can do vs. what we need. Write up a short findings doc.",
+          "labels": ["label-backend"],
+          "assignees": ["user-rich"],
+          "dueDate": null,
+          "checklist": [],
+          "attachments": 0,
+          "comments": 2,
+          "createdAt": "2025-01-18T08:15:00Z",
+          "order": 1
+        },
+        {
+          "id": "card-102",
+          "title": "Set up shared GitHub repo + branch strategy",
+          "description": "Create repo, add everyone as collaborator, set main/feature branch rules.",
+          "labels": ["label-infra"],
+          "assignees": ["user-brandon"],
+          "dueDate": null,
+          "checklist": [
+            { "id": "chk-1", "text": "Create repo", "done": true },
+            { "id": "chk-2", "text": "Add all 4 members", "done": true },
+            { "id": "chk-3", "text": "Set branch protection rules", "done": false }
+          ],
+          "attachments": 0,
+          "comments": 1,
+          "createdAt": "2025-01-18T08:20:00Z",
+          "order": 2
+        },
+        {
+          "id": "card-103",
+          "title": "Write demo script & talking points",
+          "description": "Draft 3-minute pitch: what we built, why it matters, live demo walkthrough.",
+          "labels": ["label-demo"],
+          "assignees": ["user-matt", "user-charles"],
+          "dueDate": "2025-01-19T14:00:00Z",
+          "checklist": [],
+          "attachments": 0,
+          "comments": 0,
+          "createdAt": "2025-01-18T08:30:00Z",
+          "order": 3
+        },
+        {
+          "id": "card-104",
+          "title": "Decide on tech stack (React vs. vanilla)",
+          "description": null,
+          "labels": ["label-frontend"],
+          "assignees": ["user-matt", "user-brandon"],
+          "dueDate": null,
+          "checklist": [],
+          "attachments": 0,
+          "comments": 5,
+          "createdAt": "2025-01-18T09:00:00Z",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "col-todo",
+      "title": "Up Next",
+      "order": 2,
+      "cardLimit": null,
+      "cards": [
+        {
+          "id": "card-201",
+          "title": "Scaffold React app + routing",
+          "description": "Create Vite + React project. Set up basic routing for the 3 main views.",
+          "labels": ["label-frontend"],
+          "assignees": ["user-brandon"],
+          "dueDate": "2025-01-19T12:00:00Z",
+          "checklist": [
+            { "id": "chk-10", "text": "Init Vite + React project", "done": true },
+            { "id": "chk-11", "text": "Add react-router-dom", "done": true },
+            { "id": "chk-12", "text": "Create placeholder route components", "done": false },
+            { "id": "chk-13", "text": "Push to repo", "done": false }
+          ],
+          "attachments": 0,
+          "comments": 3,
+          "createdAt": "2025-01-18T09:30:00Z",
+          "order": 1
+        },
+        {
+          "id": "card-202",
+          "title": "Design system: colors, type, spacing tokens",
+          "description": "Define a minimal design system we all agree on before anyone writes CSS.",
+          "labels": ["label-design"],
+          "assignees": ["user-charles"],
+          "dueDate": "2025-01-19T10:00:00Z",
+          "checklist": [
+            { "id": "chk-20", "text": "Color palette (primary, neutral, error)", "done": true },
+            { "id": "chk-21", "text": "Typography scale", "done": false },
+            { "id": "chk-22", "text": "Spacing scale", "done": false },
+            { "id": "chk-23", "text": "Export as CSS variables", "done": false }
+          ],
+          "attachments": 1,
+          "comments": 2,
+          "createdAt": "2025-01-18T09:45:00Z",
+          "order": 2
+        },
+        {
+          "id": "card-203",
+          "title": "Build Claude prompt pipeline for UI generation",
+          "description": "Core feature. Claude receives JSON data, generates component description, we render it.",
+          "labels": ["label-backend", "label-frontend"],
+          "assignees": ["user-matt", "user-rich"],
+          "dueDate": "2025-01-19T13:00:00Z",
+          "checklist": [
+            { "id": "chk-30", "text": "Write system prompt", "done": true },
+            { "id": "chk-31", "text": "Set up Anthropic SDK", "done": true },
+            { "id": "chk-32", "text": "Parse Claude response into component spec", "done": false },
+            { "id": "chk-33", "text": "Render component from spec", "done": false },
+            { "id": "chk-34", "text": "Handle streaming response", "done": false }
+          ],
+          "attachments": 0,
+          "comments": 7,
+          "createdAt": "2025-01-18T10:00:00Z",
+          "order": 3
+        },
+        {
+          "id": "card-204",
+          "title": "Deploy to Vercel (staging)",
+          "description": "Get a staging URL that all judges can hit. Make sure env vars are set.",
+          "labels": ["label-infra"],
+          "assignees": ["user-brandon"],
+          "dueDate": "2025-01-19T15:00:00Z",
+          "checklist": [],
+          "attachments": 0,
+          "comments": 1,
+          "createdAt": "2025-01-18T10:15:00Z",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "col-inprogress",
+      "title": "In Progress 🔥",
+      "order": 3,
+      "cardLimit": 4,
+      "cards": [
+        {
+          "id": "card-301",
+          "title": "JSON input component + schema visualizer",
+          "description": "Upload or paste JSON. Show a collapsible tree preview so users can see what data they're working with before generation.",
+          "labels": ["label-frontend"],
+          "assignees": ["user-brandon", "user-charles"],
+          "dueDate": "2025-01-19T11:00:00Z",
+          "checklist": [
+            { "id": "chk-40", "text": "Textarea for raw JSON input", "done": true },
+            { "id": "chk-41", "text": "JSON validation + error display", "done": true },
+            { "id": "chk-42", "text": "Collapsible tree component", "done": false },
+            { "id": "chk-43", "text": "File drag-and-drop upload", "done": false }
+          ],
+          "attachments": 2,
+          "comments": 4,
+          "createdAt": "2025-01-18T10:30:00Z",
+          "order": 1
+        },
+        {
+          "id": "card-302",
+          "title": "Prompt engineering: iterate on UI generation prompt",
+          "description": "Get Claude to produce structured, renderable output reliably. Test with 5+ different JSON shapes.",
+          "labels": ["label-backend"],
+          "assignees": ["user-matt"],
+          "dueDate": "2025-01-19T12:00:00Z",
+          "checklist": [
+            { "id": "chk-50", "text": "v1 prompt draft", "done": true },
+            { "id": "chk-51", "text": "Test with ecommerce JSON", "done": true },
+            { "id": "chk-52", "text": "Test with dashboard JSON", "done": true },
+            { "id": "chk-53", "text": "Test with form data JSON", "done": false },
+            { "id": "chk-54", "text": "Nail structured output format", "done": false }
+          ],
+          "attachments": 1,
+          "comments": 9,
+          "createdAt": "2025-01-18T11:00:00Z",
+          "order": 2
+        },
+        {
+          "id": "card-303",
+          "title": "Landing / hero page for the tool",
+          "description": "First impression matters for judging. Clean hero, short value prop, CTA to try it.",
+          "labels": ["label-frontend", "label-design"],
+          "assignees": ["user-charles"],
+          "dueDate": "2025-01-19T14:00:00Z",
+          "checklist": [
+            { "id": "chk-60", "text": "Hero copy written", "done": true },
+            { "id": "chk-61", "text": "Layout mocked in Figma", "done": true },
+            { "id": "chk-62", "text": "Implemented in React", "done": false },
+            { "id": "chk-63", "text": "Mobile responsive", "done": false }
+          ],
+          "attachments": 3,
+          "comments": 2,
+          "createdAt": "2025-01-18T11:30:00Z",
+          "order": 3
+        },
+        {
+          "id": "card-304",
+          "title": "Set up API key management + rate limiting",
+          "description": "Users bring their own Anthropic API key. Store in session (never server). Add basic rate limit guard.",
+          "labels": ["label-backend", "label-infra"],
+          "assignees": ["user-rich"],
+          "dueDate": "2025-01-19T13:00:00Z",
+          "checklist": [
+            { "id": "chk-70", "text": "API key input modal", "done": true },
+            { "id": "chk-71", "text": "Store key in sessionStorage", "done": true },
+            { "id": "chk-72", "text": "Validate key on entry", "done": false },
+            { "id": "chk-73", "text": "Rate limit: 10 generations/session", "done": false }
+          ],
+          "attachments": 0,
+          "comments": 3,
+          "createdAt": "2025-01-18T12:00:00Z",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "col-review",
+      "title": "Review / Testing",
+      "order": 4,
+      "cardLimit": null,
+      "cards": [
+        {
+          "id": "card-401",
+          "title": "Code review: core generation engine",
+          "description": "Rich and Matt to review each other's prompt + rendering logic before merge.",
+          "labels": ["label-backend", "label-frontend"],
+          "assignees": ["user-rich", "user-matt"],
+          "dueDate": "2025-01-19T15:00:00Z",
+          "checklist": [
+            { "id": "chk-80", "text": "Matt reviews Rich's PR", "done": false },
+            { "id": "chk-81", "text": "Rich reviews Matt's PR", "done": false },
+            { "id": "chk-82", "text": "Merge to main", "done": false }
+          ],
+          "attachments": 0,
+          "comments": 1,
+          "createdAt": "2025-01-18T13:00:00Z",
+          "order": 1
+        },
+        {
+          "id": "card-402",
+          "title": "Cross-browser QA (Chrome, Safari, Firefox)",
+          "description": null,
+          "labels": ["label-frontend"],
+          "assignees": ["user-charles"],
+          "dueDate": "2025-01-19T16:00:00Z",
+          "checklist": [
+            { "id": "chk-90", "text": "Chrome - desktop", "done": false },
+            { "id": "chk-91", "text": "Safari - desktop", "done": false },
+            { "id": "chk-92", "text": "Firefox - desktop", "done": false },
+            { "id": "chk-93", "text": "Chrome - mobile", "done": false }
+          ],
+          "attachments": 0,
+          "comments": 0,
+          "createdAt": "2025-01-18T13:15:00Z",
+          "order": 2
+        },
+        {
+          "id": "card-403",
+          "title": "Test the 3 demo JSON files end-to-end",
+          "description": "Run each of the 3 prepared demo JSONs through the full generation pipeline. Make sure output is clean and impressive.",
+          "labels": ["label-demo", "label-backend"],
+          "assignees": ["user-matt", "user-brandon"],
+          "dueDate": "2025-01-19T15:30:00Z",
+          "checklist": [
+            { "id": "chk-100", "text": "Ecommerce JSON → UI looks great", "done": false },
+            { "id": "chk-101", "text": "Trello JSON → UI looks great", "done": false },
+            { "id": "chk-102", "text": "Finance JSON → UI looks great", "done": false }
+          ],
+          "attachments": 0,
+          "comments": 0,
+          "createdAt": "2025-01-18T13:30:00Z",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "id": "col-done",
+      "title": "Done ✅",
+      "order": 5,
+      "cardLimit": null,
+      "cards": [
+        {
+          "id": "card-501",
+          "title": "Brainstorm & pick the hackathon concept",
+          "description": "We locked in: ad hoc UI generator from arbitrary JSON using Claude.",
+          "labels": ["label-demo"],
+          "assignees": ["user-matt", "user-brandon", "user-rich", "user-charles"],
+          "dueDate": null,
+          "checklist": [],
+          "attachments": 0,
+          "comments": 12,
+          "createdAt": "2025-01-18T07:30:00Z",
+          "completedAt": "2025-01-18T09:00:00Z",
+          "order": 1
+        },
+        {
+          "id": "card-502",
+          "title": "Register for hackathon + get API credits",
+          "description": null,
+          "labels": ["label-infra"],
+          "assignees": ["user-matt"],
+          "dueDate": null,
+          "checklist": [
+            { "id": "chk-110", "text": "Submit registration form", "done": true },
+            { "id": "chk-111", "text": "Claim $50 Anthropic credits", "done": true }
+          ],
+          "attachments": 0,
+          "comments": 2,
+          "createdAt": "2025-01-18T07:45:00Z",
+          "completedAt": "2025-01-18T08:30:00Z",
+          "order": 2
+        },
+        {
+          "id": "card-503",
+          "title": "Set up Figma project + share with team",
+          "description": null,
+          "labels": ["label-design"],
+          "assignees": ["user-charles"],
+          "dueDate": null,
+          "checklist": [],
+          "attachments": 0,
+          "comments": 0,
+          "createdAt": "2025-01-18T08:00:00Z",
+          "completedAt": "2025-01-18T08:45:00Z",
+          "order": 3
+        },
+        {
+          "id": "card-504",
+          "title": "Create shared Notion doc for notes + decisions",
+          "description": null,
+          "labels": [],
+          "assignees": ["user-rich"],
+          "dueDate": null,
+          "checklist": [],
+          "attachments": 0,
+          "comments": 1,
+          "createdAt": "2025-01-18T08:10:00Z",
+          "completedAt": "2025-01-18T09:15:00Z",
+          "order": 4
+        },
+        {
+          "id": "card-505",
+          "title": "Generate 3 demo JSON data files",
+          "description": "Used Claude to generate realistic dummy JSON for ecommerce, trello board, and finance app views.",
+          "labels": ["label-demo", "label-backend"],
+          "assignees": ["user-matt"],
+          "dueDate": null,
+          "checklist": [
+            { "id": "chk-120", "text": "Snowboard ecommerce JSON", "done": true },
+            { "id": "chk-121", "text": "Trello board JSON", "done": true },
+            { "id": "chk-122", "text": "Personal finance JSON", "done": true }
+          ],
+          "attachments": 0,
+          "comments": 3,
+          "createdAt": "2025-01-18T09:00:00Z",
+          "completedAt": "2025-01-19T10:45:00Z",
+          "order": 5
+        }
+      ]
+    }
+  ],
+  "activity": [
+    {
+      "id": "act-001",
+      "userId": "user-matt",
+      "action": "moved",
+      "cardId": "card-505",
+      "cardTitle": "Generate 3 demo JSON data files",
+      "fromColumn": "In Progress 🔥",
+      "toColumn": "Done ✅",
+      "timestamp": "2025-01-19T10:45:00Z"
+    },
+    {
+      "id": "act-002",
+      "userId": "user-brandon",
+      "action": "commented",
+      "cardId": "card-301",
+      "cardTitle": "JSON input component + schema visualizer",
+      "preview": "The tree component is looking great, drag-and-drop is the tricky part",
+      "timestamp": "2025-01-19T10:38:00Z"
+    },
+    {
+      "id": "act-003",
+      "userId": "user-rich",
+      "action": "checked off",
+      "cardId": "card-302",
+      "checklistItem": "Test with dashboard JSON",
+      "timestamp": "2025-01-19T09:55:00Z"
+    },
+    {
+      "id": "act-004",
+      "userId": "user-charles",
+      "action": "commented",
+      "cardId": "card-303",
+      "cardTitle": "Landing / hero page for the tool",
+      "preview": "Figma mockup is linked in the card, take a look before I start coding",
+      "timestamp": "2025-01-19T10:40:00Z"
+    }
+  ],
+  "meta": {
+    "totalCards": 18,
+    "completedCards": 5,
+    "progressPercent": 28,
+    "hoursRemaining": 7.25,
+    "teamMoodEmoji": "🚀"
+  }
+}

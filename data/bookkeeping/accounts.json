@@ -1,0 +1,7 @@
+[
+  { "id": "acct-001", "name": "Business Checking", "type": "checking", "balance": 47823.51, "currency": "USD" },
+  { "id": "acct-002", "name": "Business Savings", "type": "savings", "balance": 25000.00, "currency": "USD" },
+  { "id": "acct-003", "name": "Business Credit Card", "type": "credit", "balance": -2124.06, "currency": "USD" },
+  { "id": "acct-004", "name": "Tax Reserve", "type": "savings", "balance": 15600.00, "currency": "USD" },
+  { "id": "acct-005", "name": "Petty Cash", "type": "cash", "balance": 250.00, "currency": "USD" }
+]

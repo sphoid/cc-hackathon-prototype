@@ -1,0 +1,56 @@
+{
+  "workflow_id": "bookkeeping-v1",
+  "name": "Bookkeeping",
+  "version": "1.0.0",
+  "branding": {
+    "name": "LedgerLite",
+    "typography": {
+      "heading_font": "DM Sans",
+      "body_font": "DM Sans",
+      "mono_font": "IBM Plex Mono"
+    },
+    "color_palette": {
+      "primary": "#0D9488",
+      "secondary": "#059669",
+      "accent": "#D97706",
+      "background": "#FFFFFF",
+      "surface": "#F0FDFA",
+      "text_primary": "#134E4A",
+      "text_secondary": "#6B7280",
+      "destructive": "#E11D48"
+    },
+    "border_radius": "0.375rem"
+  },
+  "data_sources": {
+    "transactions": {
+      "type": "mock",
+      "schema": {
+        "id": "string",
+        "date": "string",
+        "description": "string",
+        "amount": "number",
+        "type": "string",
+        "category": "string",
+        "account": "string",
+        "vendor": "string"
+      }
+    },
+    "accounts": {
+      "type": "mock",
+      "schema": {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "balance": "number",
+        "currency": "string"
+      }
+    }
+  },
+  "ui_directives": {
+    "component_library": "shadcn",
+    "output_format": "html",
+    "responsive": true,
+    "dark_mode": false
+  },
+  "prompt_context": "You are a UI generation engine for LedgerLite, a bookkeeping platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is managing financial records. Generate ledger tables, invoice views, expense charts, account summaries, and financial dashboards as appropriate. Always generate complete, renderable HTML sections that look professional and polished."
+}

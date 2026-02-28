@@ -1,0 +1,58 @@
+{
+  "workflow_id": "project-mgmt-v1",
+  "name": "Project Management",
+  "version": "1.0.0",
+  "branding": {
+    "name": "TaskFlow",
+    "typography": {
+      "heading_font": "Poppins",
+      "body_font": "Poppins",
+      "mono_font": "Fira Code"
+    },
+    "color_palette": {
+      "primary": "#7C3AED",
+      "secondary": "#6366F1",
+      "accent": "#EC4899",
+      "background": "#FFFFFF",
+      "surface": "#F5F3FF",
+      "text_primary": "#1E1B4B",
+      "text_secondary": "#6B7280",
+      "destructive": "#DC2626"
+    },
+    "border_radius": "0.75rem"
+  },
+  "data_sources": {
+    "tasks": {
+      "type": "mock",
+      "schema": {
+        "id": "string",
+        "title": "string",
+        "description": "string",
+        "status": "string",
+        "priority": "string",
+        "assignee": "string",
+        "project": "string",
+        "due_date": "string",
+        "tags": "string[]"
+      }
+    },
+    "projects": {
+      "type": "mock",
+      "schema": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "status": "string",
+        "task_count": "number",
+        "progress": "number"
+      }
+    }
+  },
+  "ui_directives": {
+    "component_library": "shadcn",
+    "output_format": "html",
+    "responsive": true,
+    "dark_mode": false
+  },
+  "prompt_context": "You are a UI generation engine for TaskFlow, a project management platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is managing tasks and projects. Generate kanban boards, task lists, timeline views, status dashboards, and detail panels as appropriate. Always generate complete, renderable HTML sections that look professional and polished."
+}

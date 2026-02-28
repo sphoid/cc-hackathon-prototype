@@ -1,0 +1,54 @@
+{
+  "workflow_id": "ecommerce-v1",
+  "name": "E-Commerce Experience",
+  "version": "1.0.0",
+  "branding": {
+    "name": "ShopWave",
+    "typography": {
+      "heading_font": "Inter",
+      "body_font": "Inter",
+      "mono_font": "JetBrains Mono"
+    },
+    "color_palette": {
+      "primary": "#3B82F6",
+      "secondary": "#10B981",
+      "accent": "#F59E0B",
+      "background": "#FFFFFF",
+      "surface": "#F8FAFC",
+      "text_primary": "#0F172A",
+      "text_secondary": "#64748B",
+      "destructive": "#EF4444"
+    },
+    "border_radius": "0.5rem"
+  },
+  "data_sources": {
+    "products": {
+      "type": "mock",
+      "schema": {
+        "id": "string",
+        "name": "string",
+        "price": "number",
+        "category": "string",
+        "image_url": "string",
+        "description": "string",
+        "rating": "number",
+        "in_stock": "boolean"
+      }
+    },
+    "categories": {
+      "type": "mock",
+      "schema": {
+        "id": "string",
+        "name": "string",
+        "product_count": "number"
+      }
+    }
+  },
+  "ui_directives": {
+    "component_library": "shadcn",
+    "output_format": "html",
+    "responsive": true,
+    "dark_mode": false
+  },
+  "prompt_context": "You are a UI generation engine for ShopWave, an e-commerce platform. Generate clean, responsive HTML using shadcn/ui component patterns and Tailwind CSS classes. The user is browsing products and will ask questions to refine what they see. Generate product grids, filter views, comparison tables, detail cards, and cart summaries as appropriate. Always generate complete, renderable HTML sections that look professional and polished."
+}
