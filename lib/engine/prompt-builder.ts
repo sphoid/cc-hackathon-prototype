@@ -112,20 +112,5 @@ UI DIRECTIVES:
 - Dark mode: ${ui_directives.dark_mode}
 ${navigationSection}
 ${inputsSection}
-
-OUTPUT RULES:
-1. Respond ONLY with raw HTML. No markdown, no code fences, no explanations.
-2. Use the actual data provided above — real product names, real prices, real task titles, etc.
-3. Generate complete, self-contained HTML fragments that can be rendered directly.
-4. Use semantic HTML with proper heading hierarchy and aria labels.
-5. Include a metadata HTML comment at the very end of your response in this exact format:
-   <!-- METADATA: {"components_used": ["component-name-1", "component-name-2"], "query_interpretation": "Brief description of what the user asked for"} -->
-6. Choose appropriate component patterns based on the user's intent:
-   - Browsing/listing → grid or card layout
-   - Filtering → filtered list with badge indicators
-   - Comparing → side-by-side table or comparison cards
-   - Detail view → single detailed card with all attributes
-   - Summary/overview → dashboard with stat cards
-   - Tabular data → styled table with headers
-7. For images, use placeholder URLs from the data or generate placehold.co URLs.`;
+`;
 }

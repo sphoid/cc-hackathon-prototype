@@ -40,4 +40,4 @@ Choose the right component based on user intent:
 - If filtering by price, apply the filter accurately against the data
 - If a `rating` field exists, display it as a star rating rounded to one decimal: `4.2 ★`
 - If `in_stock` is false, always visually indicate the product is unavailable
-- Category badges: small pill, surface background, text_secondary color, `text-xs font-medium px-2 py-0.5 rounded-full`
+- Category badges: small pill, var(--bg-surface) background, var(--text-secondary) color, `text-xs font-medium px-2 py-0.5 rounded-full`

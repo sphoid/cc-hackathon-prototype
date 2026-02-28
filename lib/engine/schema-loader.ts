@@ -39,9 +39,7 @@ export async function loadAllSchemas(): Promise<void> {
         const subPrompt = await readPromptFile(
           `${schema.workflow_id}.${subId}.prompt.md`
         );
-        // Use sub-workflow-specific prompt, fall back to main schema prompt
-        const resolvedPrompt = subPrompt || schemaPrompt;
-        subWorkflow.prompt_context = [basePrompt, resolvedPrompt]
+        subWorkflow.prompt_context = [basePrompt, schemaPrompt, subPrompt]
           .filter(Boolean)
           .join("\n\n---\n\n");
       }

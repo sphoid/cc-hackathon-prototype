@@ -8,6 +8,7 @@ import {
 import { loadMockData } from "@/lib/mock-data/loader";
 import { buildSystemPrompt } from "@/lib/engine/prompt-builder";
 import { generateUI } from "@/lib/engine/claude-client";
+import { normalizeQuery } from "@/lib/engine/query-normalizer";
 import { GenerateRequest } from "@/lib/types/api";
 
 // In-memory cache for auto-generated sub-workflow pages
@@ -81,6 +82,9 @@ export async function POST(request: NextRequest) {
       subWorkflow.auto_generate_query ||
       `Generate the ${subWorkflow.name} page.`;
   }
+
+  // Normalize phrasing so semantically identical queries produce identical output
+  effectiveQuery = normalizeQuery(effectiveQuery);
 
   // Validate query — must have something to work with
   if (!effectiveQuery) {

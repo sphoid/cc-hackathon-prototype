@@ -26,8 +26,8 @@ Choose the right component based on user intent:
 **Task Detail** (when user asks about a specific task)
 - Full-width card: title as `text-2xl`, project badge, status + priority badges side by side
 - Description in a readable prose block
-- Metadata grid: Assignee, Due Date, Project, Tags — two columns, label in text_secondary, value in text_primary
-- Tags: small pill badges in surface background
+- Metadata grid: Assignee, Due Date, Project, Tags — two columns, label in var(--text-secondary), value in var(--text-primary)
+- Tags: small pill badges with var(--bg-surface) background
 
 **Dashboard Summary** (when user asks for an overview or summary)
 - Stat cards row: Total Tasks, In Progress, Completed, Overdue — each with a large number and label

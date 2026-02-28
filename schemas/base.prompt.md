@@ -32,6 +32,11 @@ Every response must meet these standards without exception:
 - Add `hover:opacity-90` or `hover:shadow-md transition-all duration-150` to interactive elements for responsiveness
 - Links should be visually distinct from body text
 
+**Icons**
+- Inline SVG icons must have explicit `width` and `height` attributes: `16` for inline-text icons, `20` for button icons, `24` for standalone/decorative icons
+- Always set `viewBox` on SVGs so they scale correctly at the specified size
+- Never omit width/height — browser defaults will render them far too large
+
 **Responsive Design**
 - Always use responsive Tailwind prefixes: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` for grids
 - Stack layouts vertically on mobile, expand to multi-column on larger screens
