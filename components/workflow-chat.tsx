@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { readSSEStream } from "@/lib/stream-reader";
 
 interface ConversationEntry {
   role: "user" | "assistant";
@@ -21,7 +22,9 @@ export default function WorkflowChat({
   );
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streaming, setStreaming] = useState(false);
   const [currentHtml, setCurrentHtml] = useState("");
+  const htmlRef = useRef("");
   const [conversation, setConversation] = useState<ConversationEntry[]>([]);
   const [metadata, setMetadata] = useState<{
     components_used: string[];
@@ -34,7 +37,10 @@ export default function WorkflowChat({
   const handleGenerate = async () => {
     if (!query.trim()) return;
 
+    const q = query.trim();
+    setQuery("");
     setLoading(true);
+    setStreaming(false);
     setError("");
 
     try {
@@ -44,29 +50,75 @@ export default function WorkflowChat({
         body: JSON.stringify({
           workflow_id: workflowId,
           session_id: sessionId,
-          query: query.trim(),
+          query: q,
         }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
+        const data = await res.json();
         setError(data.error || "Generation failed");
+        setLoading(false);
         return;
       }
 
-      setCurrentHtml(data.html);
-      setMetadata(data.metadata);
-      setConversation((prev) => [
-        ...prev,
-        { role: "user", content: query.trim(), turn: data.metadata.conversation_turn },
-        { role: "assistant", content: data.html, turn: data.metadata.conversation_turn },
-      ]);
-      setQuery("");
+      const contentType = res.headers.get("content-type") || "";
+
+      if (contentType.includes("application/json")) {
+        const data = await res.json();
+        setCurrentHtml(data.html);
+        htmlRef.current = data.html;
+        setMetadata(data.metadata);
+        setConversation((prev) => [
+          ...prev,
+          { role: "user", content: q, turn: data.metadata.conversation_turn },
+          { role: "assistant", content: data.html, turn: data.metadata.conversation_turn },
+        ]);
+        setLoading(false);
+      } else {
+        // Streaming response
+        setStreaming(true);
+        htmlRef.current = "";
+        setCurrentHtml("");
+
+        await readSSEStream(res, {
+          onChunk: (chunk) => {
+            htmlRef.current += chunk;
+            setCurrentHtml(htmlRef.current);
+          },
+          onDone: (data) => {
+            const meta = data.metadata as {
+              components_used: string[];
+              query_interpretation: string;
+              conversation_turn: number;
+            };
+            setMetadata(meta);
+            // Clean up markdown fences from the displayed HTML
+            const cleaned = htmlRef.current
+              .replace(/^```(?:html)?\s*\n?/i, "")
+              .replace(/\n?```\s*$/i, "")
+              .replace(/<!--\s*METADATA:\s*\{[\s\S]*?\}\s*-->/g, "")
+              .trim();
+            htmlRef.current = cleaned;
+            setCurrentHtml(cleaned);
+            setConversation((prev) => [
+              ...prev,
+              { role: "user", content: q, turn: meta.conversation_turn },
+              { role: "assistant", content: cleaned, turn: meta.conversation_turn },
+            ]);
+            setStreaming(false);
+            setLoading(false);
+          },
+          onError: (err) => {
+            setError(err);
+            setStreaming(false);
+            setLoading(false);
+          },
+        });
+      }
     } catch (err) {
       setError(String(err));
-    } finally {
       setLoading(false);
+      setStreaming(false);
     }
   };
 
@@ -146,7 +198,7 @@ export default function WorkflowChat({
           </div>
         )}
 
-        {loading && (
+        {loading && !streaming && (
           <div className="flex items-center justify-center h-64">
             <div className="flex flex-col items-center gap-3">
               <div
@@ -167,12 +219,32 @@ export default function WorkflowChat({
           </div>
         )}
 
-        {!loading && currentHtml && (
-          <div
-            ref={outputRef}
-            className="prose max-w-none animate-fade-up"
-            dangerouslySetInnerHTML={{ __html: currentHtml }}
-          />
+        {currentHtml && (
+          <div>
+            {streaming && (
+              <div className="flex items-center gap-2 mb-3">
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{
+                    border: "2px solid var(--border)",
+                    borderTopColor: "var(--accent)",
+                    animation: "spin-slow 0.8s linear infinite",
+                  }}
+                />
+                <span
+                  className="text-xs font-mono"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  streaming...
+                </span>
+              </div>
+            )}
+            <div
+              ref={outputRef}
+              className={`prose max-w-none ${!streaming ? "animate-fade-up" : ""}`}
+              dangerouslySetInnerHTML={{ __html: currentHtml }}
+            />
+          </div>
         )}
 
         {!loading && !currentHtml && (

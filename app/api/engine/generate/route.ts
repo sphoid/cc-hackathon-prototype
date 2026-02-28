@@ -135,30 +135,83 @@ export async function POST(request: NextRequest) {
   const systemPrompt = buildSystemPrompt(schema, mockData, subWorkflowParams);
 
   try {
-    const result = await generateUI(
+    const rawStream = generateUIStream(
       systemPrompt,
       session.conversation,
       effectiveQuery
     );
 
-    // Cache auto-generated sub-workflow results
-    if (isAutoGenerate && sub_workflow_id) {
-      const cacheKey = buildCacheKey(workflow_id, sub_workflow_id, inputs);
-      htmlCache.set(cacheKey, { html: result.html, metadata: result.metadata });
-    }
+    let fullText = "";
+    const encoder = new TextEncoder();
 
-    // Add messages to session
-    addMessage(session_id, { role: "user", content: effectiveQuery });
-    addMessage(session_id, { role: "assistant", content: result.html });
+    const sseStream = new ReadableStream({
+      async start(controller) {
+        const reader = rawStream.getReader();
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
 
-    const conversationTurn = Math.ceil(session.conversation.length / 2);
+            if (value.startsWith("\n[DONE]")) {
+              const metadataJson = value.slice("\n[DONE]".length);
+              let metadata: Record<string, unknown> = {};
+              try {
+                metadata = JSON.parse(metadataJson);
+              } catch {
+                // ignore parse errors
+              }
 
-    return NextResponse.json({
-      session_id,
-      html: result.html,
-      metadata: {
-        ...result.metadata,
-        conversation_turn: conversationTurn,
+              // Strip markdown fences and metadata comment from accumulated text for caching/session
+              const html = fullText
+                .replace(/^```(?:html)?\s*\n?/i, "")
+                .replace(/\n?```\s*$/i, "")
+                .replace(/<!--\s*METADATA:\s*\{[\s\S]*?\}\s*-->/g, "")
+                .trim();
+
+              // Cache auto-generated sub-workflow results
+              if (isAutoGenerate && sub_workflow_id) {
+                const cacheKey = buildCacheKey(workflow_id, sub_workflow_id, inputs);
+                htmlCache.set(cacheKey, { html, metadata });
+              }
+
+              // Add messages to session
+              addMessage(session_id, { role: "user", content: effectiveQuery });
+              addMessage(session_id, { role: "assistant", content: html });
+
+              const conversationTurn = Math.ceil(session.conversation.length / 2);
+
+              controller.enqueue(
+                encoder.encode(
+                  `data: [DONE]\ndata: ${JSON.stringify({
+                    session_id,
+                    metadata: { ...metadata, conversation_turn: conversationTurn },
+                  })}\n\n`
+                )
+              );
+            } else {
+              fullText += value;
+              controller.enqueue(
+                encoder.encode(`data: ${JSON.stringify(value)}\n\n`)
+              );
+            }
+          }
+        } catch (err) {
+          controller.enqueue(
+            encoder.encode(
+              `data: ${JSON.stringify({ error: String(err) })}\n\n`
+            )
+          );
+        } finally {
+          controller.close();
+        }
+      },
+    });
+
+    return new Response(sseStream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
       },
     });
   } catch (error) {

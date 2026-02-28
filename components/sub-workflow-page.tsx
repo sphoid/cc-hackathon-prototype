@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { readSSEStream } from "@/lib/stream-reader";
 
 export default function SubWorkflowPage({
   workflowId,
@@ -21,7 +22,9 @@ export default function SubWorkflowPage({
   );
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [streaming, setStreaming] = useState(false);
   const [currentHtml, setCurrentHtml] = useState("");
+  const htmlRef = useRef("");
   const [metadata, setMetadata] = useState<{
     components_used: string[];
     query_interpretation: string;
@@ -30,13 +33,10 @@ export default function SubWorkflowPage({
   const [error, setError] = useState("");
   const hasGenerated = useRef(false);
 
-  // Auto-generate on mount
-  useEffect(() => {
-    if (hasGenerated.current) return;
-    hasGenerated.current = true;
-
-    const generate = async () => {
+  const fetchAndStream = useCallback(
+    async (queryText: string) => {
       setLoading(true);
+      setStreaming(false);
       setError("");
 
       try {
@@ -46,67 +46,87 @@ export default function SubWorkflowPage({
           body: JSON.stringify({
             workflow_id: workflowId,
             session_id: sessionId,
-            query: "",
+            query: queryText,
             sub_workflow_id: subWorkflowId,
             inputs,
             base_path: basePath,
           }),
         });
 
-        const data = await res.json();
-
         if (!res.ok) {
+          const data = await res.json();
           setError(data.error || "Generation failed");
+          setLoading(false);
           return;
         }
 
-        setCurrentHtml(data.html);
-        setMetadata(data.metadata);
+        const contentType = res.headers.get("content-type") || "";
+
+        if (contentType.includes("application/json")) {
+          // Cache hit — JSON response
+          const data = await res.json();
+          setCurrentHtml(data.html);
+          htmlRef.current = data.html;
+          setMetadata(data.metadata);
+          setLoading(false);
+        } else {
+          // Streaming response
+          setStreaming(true);
+          htmlRef.current = "";
+          setCurrentHtml("");
+
+          await readSSEStream(res, {
+            onChunk: (chunk) => {
+              htmlRef.current += chunk;
+              setCurrentHtml(htmlRef.current);
+            },
+            onDone: (data) => {
+              setMetadata(
+                data.metadata as {
+                  components_used: string[];
+                  query_interpretation: string;
+                  conversation_turn: number;
+                }
+              );
+              // Clean up markdown fences from the displayed HTML
+              const cleaned = htmlRef.current
+                .replace(/^```(?:html)?\s*\n?/i, "")
+                .replace(/\n?```\s*$/i, "")
+                .replace(/<!--\s*METADATA:\s*\{[\s\S]*?\}\s*-->/g, "")
+                .trim();
+              htmlRef.current = cleaned;
+              setCurrentHtml(cleaned);
+              setStreaming(false);
+              setLoading(false);
+            },
+            onError: (err) => {
+              setError(err);
+              setStreaming(false);
+              setLoading(false);
+            },
+          });
+        }
       } catch (err) {
         setError(String(err));
-      } finally {
         setLoading(false);
+        setStreaming(false);
       }
-    };
+    },
+    [workflowId, sessionId, subWorkflowId, inputs, basePath]
+  );
 
-    generate();
-  }, [workflowId, sessionId, subWorkflowId, inputs, basePath]);
+  // Auto-generate on mount
+  useEffect(() => {
+    if (hasGenerated.current) return;
+    hasGenerated.current = true;
+    fetchAndStream("");
+  }, [fetchAndStream]);
 
   const handleGenerate = async () => {
     if (!query.trim()) return;
-
-    setLoading(true);
-    setError("");
-
-    try {
-      const res = await fetch("/api/engine/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          workflow_id: workflowId,
-          session_id: sessionId,
-          query: query.trim(),
-          sub_workflow_id: subWorkflowId,
-          inputs,
-          base_path: basePath,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Generation failed");
-        return;
-      }
-
-      setCurrentHtml(data.html);
-      setMetadata(data.metadata);
-      setQuery("");
-    } catch (err) {
-      setError(String(err));
-    } finally {
-      setLoading(false);
-    }
+    const q = query.trim();
+    setQuery("");
+    await fetchAndStream(q);
   };
 
   return (
@@ -182,7 +202,7 @@ export default function SubWorkflowPage({
           </div>
         )}
 
-        {loading && (
+        {loading && !streaming && (
           <div className="flex items-center justify-center h-64">
             <div className="flex flex-col items-center gap-3">
               <div
@@ -203,11 +223,33 @@ export default function SubWorkflowPage({
           </div>
         )}
 
-        {!loading && currentHtml && (
-          <div
-            className="prose max-w-none animate-fade-up"
-            dangerouslySetInnerHTML={{ __html: currentHtml }}
-          />
+        {currentHtml && (
+          <div>
+            {streaming && (
+              <div
+                className="flex items-center gap-2 mb-3"
+              >
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{
+                    border: "2px solid var(--border)",
+                    borderTopColor: "var(--accent)",
+                    animation: "spin-slow 0.8s linear infinite",
+                  }}
+                />
+                <span
+                  className="text-xs font-mono"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  streaming...
+                </span>
+              </div>
+            )}
+            <div
+              className={`prose max-w-none ${!streaming ? "animate-fade-up" : ""}`}
+              dangerouslySetInnerHTML={{ __html: currentHtml }}
+            />
+          </div>
         )}
       </div>
 

@@ -40,6 +40,53 @@ export async function generateUI(
   return parseResponse(rawText);
 }
 
+export function generateUIStream(
+  systemPrompt: string,
+  conversationHistory: ConversationMessage[],
+  userQuery: string
+): ReadableStream<string> {
+  const messages: Anthropic.MessageParam[] = [
+    ...conversationHistory.map((msg) => ({
+      role: msg.role as "user" | "assistant",
+      content: msg.content,
+    })),
+    { role: "user", content: userQuery },
+  ];
+
+  return new ReadableStream<string>({
+    async start(controller) {
+      try {
+        const stream = client.messages.stream({
+          model: "claude-sonnet-4-5-20250929",
+          max_tokens: 4096,
+          temperature: 0.3,
+          system: systemPrompt,
+          messages,
+        });
+
+        stream.on("text", (text) => {
+          controller.enqueue(text);
+        });
+
+        const finalMessage = await stream.finalMessage();
+
+        const rawText = finalMessage.content
+          .filter(
+            (block): block is Anthropic.TextBlock => block.type === "text"
+          )
+          .map((block) => block.text)
+          .join("");
+
+        const result = parseResponse(rawText);
+        controller.enqueue(`\n[DONE]${JSON.stringify(result.metadata)}`);
+        controller.close();
+      } catch (err) {
+        controller.error(err);
+      }
+    },
+  });
+}
+
 function parseResponse(raw: string): GenerationResult {
   let html = stripMarkdownFences(raw);
 
