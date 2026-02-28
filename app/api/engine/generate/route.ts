@@ -7,7 +7,7 @@ import {
 } from "@/lib/engine/session-store";
 import { loadMockData } from "@/lib/mock-data/loader";
 import { buildSystemPrompt } from "@/lib/engine/prompt-builder";
-import { generateUIStream } from "@/lib/engine/claude-client";
+import { generateUI, generateUIStream } from "@/lib/engine/claude-client";
 import { normalizeQuery } from "@/lib/engine/query-normalizer";
 import { GenerateRequest } from "@/lib/types/api";
 
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { workflow_id, session_id, query, sub_workflow_id, inputs, base_path } =
+  const { workflow_id, session_id, query, sub_workflow_id, inputs, base_path, bust_cache } =
     body;
 
   // Validate required fields
@@ -103,13 +103,17 @@ export async function POST(request: NextRequest) {
   // Check cache for auto-generated sub-workflow pages
   if (isAutoGenerate && sub_workflow_id) {
     const cacheKey = buildCacheKey(workflow_id, sub_workflow_id, inputs);
-    const cached = htmlCache.get(cacheKey);
-    if (cached) {
-      return NextResponse.json({
-        session_id,
-        html: cached.html,
-        metadata: { ...cached.metadata, conversation_turn: 1, cached: true },
-      });
+    if (bust_cache) {
+      htmlCache.delete(cacheKey);
+    } else {
+      const cached = htmlCache.get(cacheKey);
+      if (cached) {
+        return NextResponse.json({
+          session_id,
+          html: cached.html,
+          metadata: { ...cached.metadata, conversation_turn: 1, cached: true },
+        });
+      }
     }
   }
 

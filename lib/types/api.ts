@@ -5,6 +5,7 @@ export interface GenerateRequest {
   sub_workflow_id?: string;
   inputs?: Record<string, string>;
   base_path?: string;
+  bust_cache?: boolean;
 }
 
 export interface GenerateResponse {

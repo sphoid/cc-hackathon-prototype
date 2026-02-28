@@ -31,13 +31,15 @@ export default function SubWorkflowPage({
     conversation_turn: number;
   } | null>(null);
   const [error, setError] = useState("");
+  const [cached, setCached] = useState(false);
   const hasGenerated = useRef(false);
 
   const fetchAndStream = useCallback(
-    async (queryText: string) => {
+    async (queryText: string, bustCache = false) => {
       setLoading(true);
       setStreaming(false);
       setError("");
+      setCached(false);
 
       try {
         const res = await fetch("/api/engine/generate", {
@@ -50,6 +52,7 @@ export default function SubWorkflowPage({
             sub_workflow_id: subWorkflowId,
             inputs,
             base_path: basePath,
+            ...(bustCache && { bust_cache: true }),
           }),
         });
 
@@ -68,6 +71,7 @@ export default function SubWorkflowPage({
           setCurrentHtml(data.html);
           htmlRef.current = data.html;
           setMetadata(data.metadata);
+          setCached(!!data.metadata?.cached);
           setLoading(false);
         } else {
           // Streaming response
@@ -127,6 +131,11 @@ export default function SubWorkflowPage({
     const q = query.trim();
     setQuery("");
     await fetchAndStream(q);
+  };
+
+  const handleRegenerate = async () => {
+    if (loading) return;
+    await fetchAndStream("", true);
   };
 
   return (
@@ -224,7 +233,7 @@ export default function SubWorkflowPage({
         )}
 
         {currentHtml && (
-          <div>
+          <div className="relative">
             {streaming && (
               <div
                 className="flex items-center gap-2 mb-3"
@@ -249,6 +258,36 @@ export default function SubWorkflowPage({
               className={`prose max-w-none ${!streaming ? "animate-fade-up" : ""}`}
               dangerouslySetInnerHTML={{ __html: currentHtml }}
             />
+            {cached && !loading && (
+              <div className="fixed bottom-24 right-8 z-50">
+                <button
+                  onClick={handleRegenerate}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
+                  style={{
+                    background: "var(--accent)",
+                    color: "var(--bg-primary)",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
+                  }}
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 2v6h-6" />
+                    <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                    <path d="M3 22v-6h6" />
+                    <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                  </svg>
+                  Regenerate
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
