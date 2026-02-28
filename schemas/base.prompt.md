@@ -13,17 +13,18 @@ Every response must meet these standards without exception:
 - Use a clear size hierarchy: page titles at `text-2xl font-semibold`, section headings at `text-lg font-medium`, body at `text-sm`, metadata/labels at `text-xs`
 - Apply the schema's heading font to all headings via inline style: `style="font-family: '{HEADING_FONT}', sans-serif;"`
 - Never use default browser fonts — always apply the provided font stack
-- Text color: primary text uses `text_primary` color, secondary/metadata uses `text_secondary` color — apply via inline style
+- Text color: primary text uses `var(--text-primary)`, secondary/metadata uses `var(--text-secondary)` — apply via inline style
 
 **Color Application**
-- Apply brand colors via inline styles, not Tailwind color utilities (e.g. `style="background-color: #3B82F6; color: #fff;"`)
-- Use the surface color for card backgrounds, background color for page-level backgrounds
+- For brand accent colors (primary, secondary, accent, destructive), use the provided hex values as inline styles (e.g. `style="background-color: #3B82F6; color: white;"`)
+- For page backgrounds, card surfaces, text, and borders, always use the provided CSS variable references (e.g. `style="background-color: var(--bg-elevated); color: var(--text-primary);"`)
+- Never hardcode white, black, or gray values for backgrounds or text — always use CSS variables for theme colors
 - Colored accents should be purposeful: primary color for CTAs and active states, accent for highlights, destructive for errors/warnings only
-- Never use raw Tailwind color classes like `bg-blue-500` — always use inline styles with the exact hex from the schema
+- Never use raw Tailwind color classes like `bg-blue-500` — always use inline styles with hex or CSS variables as specified
 
 **Cards & Containers**
-- All cards must have: consistent padding, a subtle shadow (`shadow-sm` or `shadow`), the schema's border-radius applied via inline style, and a surface-color background
-- Use a light border (`border border-gray-100` or `border border-gray-200`) on cards for definition
+- All cards must have: consistent padding, a subtle shadow (`shadow-sm` or `shadow`), the schema's border-radius applied via inline style, and a `var(--bg-elevated)` background
+- Use `style="border: 1px solid var(--border);"` on cards for definition
 - No raw `<div>` blocks without visual treatment — every container should have intentional styling
 
 **Interactive Elements**
@@ -39,7 +40,7 @@ Every response must meet these standards without exception:
 **Images**
 - Always render images in fixed-aspect containers: `<div class="aspect-square overflow-hidden rounded-lg">` wrapping `<img class="w-full h-full object-cover" />`
 - Never let images stretch or overflow their containers
-- If an image URL is provided in the data, use it. Otherwise use `https://placehold.co/400x400/e2e8f0/64748b?text=No+Image`
+- If an image URL is provided in the data, use it. Otherwise use `https://placehold.co/400x400/1a1a1f/71717a?text=No+Image`
 
 **Empty States**
 - If a query yields no matching data, render a centered empty state card with an icon (use an SVG inline), a short heading, and a helpful suggestion — never return an empty or near-empty response

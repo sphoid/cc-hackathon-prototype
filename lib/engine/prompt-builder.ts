@@ -10,20 +10,31 @@ export function buildSystemPrompt(
 
 BRANDING:
 - Brand Name: ${branding.name}
-- Primary Color: ${branding.color_palette.primary}
-- Secondary Color: ${branding.color_palette.secondary}
-- Accent Color: ${branding.color_palette.accent}
-- Background: ${branding.color_palette.background}
-- Surface: ${branding.color_palette.surface}
-- Text Primary: ${branding.color_palette.text_primary}
-- Text Secondary: ${branding.color_palette.text_secondary}
-- Destructive: ${branding.color_palette.destructive}
 - Heading Font: ${branding.typography.heading_font}
 - Body Font: ${branding.typography.body_font}
 - Border Radius: ${branding.border_radius}
 
+BRAND COLORS (use as inline hex values for accent/identity colors):
+- Primary: ${branding.color_palette.primary}
+- Secondary: ${branding.color_palette.secondary}
+- Accent: ${branding.color_palette.accent}
+- Destructive: ${branding.color_palette.destructive}
+
+THEME COLORS (use as CSS variable references — these adapt to the app theme automatically):
+- Page background: var(--bg-primary)
+- Card/container background: var(--bg-elevated)
+- Nested/hover surface: var(--bg-surface)
+- Border color: var(--border)
+- Border hover: var(--border-hover)
+- Primary text: var(--text-primary)
+- Secondary text: var(--text-secondary)
+- Muted text: var(--text-muted)
+
 IMPORTANT STYLING RULES:
-- Use inline styles for brand colors (e.g., style="background-color: ${branding.color_palette.primary}; color: white;") because Tailwind cannot reliably map arbitrary hex values.
+- Brand colors → inline style with hex: style="background-color: ${branding.color_palette.primary}; color: white;"
+- Theme colors → inline style with CSS vars: style="background-color: var(--bg-elevated); color: var(--text-primary);"
+- Borders → style="border: 1px solid var(--border);"
+- Never use hardcoded white/black/gray for backgrounds or text. Always use the CSS variable references above for theme colors.
 - Use Tailwind CSS classes for layout, spacing, sizing, and responsive design (e.g., grid, flex, gap-4, p-6, rounded-lg, shadow, etc.).
 - Apply font-family via inline style for headings: style="font-family: '${branding.typography.heading_font}', sans-serif;"
 - Apply border-radius via inline style: style="border-radius: ${branding.border_radius};"

@@ -9,7 +9,7 @@ Choose the right component based on user intent:
 - Amount column: credits (income) in green (`#059669`, prefixed with `+`), debits (expenses) in destructive red (prefixed with `-`) — apply color via inline style
 - Use monospace font for all amounts: `style="font-family: 'IBM Plex Mono', monospace;"`
 - Amounts formatted as USD with two decimal places: `$1,234.56`
-- Alternating row backgrounds: even rows use surface color, odd rows use white
+- Alternating row backgrounds: even rows use `var(--bg-elevated)`, odd rows use `var(--bg-primary)`
 - Show a running total or summary line at the bottom: total credits, total debits, net
 
 **Account Summary Cards** (when user asks about accounts or balances)

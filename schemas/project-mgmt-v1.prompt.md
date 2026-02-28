@@ -20,7 +20,7 @@ Choose the right component based on user intent:
 
 **Project Overview** (when user asks about projects or progress)
 - Project cards: name, description, status badge, task count, and a progress bar
-- Progress bar: a `div` with fixed height `h-2`, background `#E5E7EB`, inner `div` with width equal to `progress`%, background in primary color
+- Progress bar: a `div` with fixed height `h-2`, background `var(--border)`, inner `div` with width equal to `progress`%, background in primary color
 - Status badges follow the same color convention as task statuses
 
 **Task Detail** (when user asks about a specific task)
